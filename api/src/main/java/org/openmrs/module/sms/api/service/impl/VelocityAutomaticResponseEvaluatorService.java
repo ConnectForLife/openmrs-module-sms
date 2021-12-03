@@ -62,8 +62,8 @@ public class VelocityAutomaticResponseEvaluatorService
     } catch (IOException | VelocityException e) {
       throw new APIException(
           format(
-              "Failed to execute Velocity Template Template for response configured " + "by: {0}.",
-              messageContext.getConfig().getName()),
+              "Failed to execute Velocity Template Template for response configured by: {0}. Cause: {1}",
+              messageContext.getConfig().getName(), e.toString()),
           e);
     }
 
@@ -84,8 +84,8 @@ public class VelocityAutomaticResponseEvaluatorService
     } catch (IOException ioe) {
       throw new APIException(
           format(
-              "Failed to read result of Velocity Template for automatic response configured by: {0}",
-              messageContext.getConfig().getName()),
+              "Failed to read result of Velocity Template for automatic response configured by: {0}. Cause: {1}",
+              messageContext.getConfig().getName(), ioe.toString()),
           ioe);
     }
   }

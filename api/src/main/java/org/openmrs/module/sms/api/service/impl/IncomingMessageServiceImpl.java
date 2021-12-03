@@ -9,6 +9,7 @@ import org.openmrs.module.sms.api.util.SMSConstants;
 import java.util.Iterator;
 import java.util.List;
 
+import static java.text.MessageFormat.format;
 import static java.util.Comparator.comparing;
 
 /** The default implementation of IncomingMessageService. */
@@ -24,8 +25,9 @@ public class IncomingMessageServiceImpl extends BaseIncomingMessageService {
           () -> internalHandleMessage(incomingMessage), getDaemonToken());
     } catch (Exception e) {
       LOGGER.error(
-          "Failed to handle incoming message, message providerId: "
-              + incomingMessage.getProviderMessageId());
+          format(
+              "Failed to handle incoming message, message providerId: {0}. Cause: {1}",
+              incomingMessage.getProviderMessageId(), e.toString()));
     }
   }
 
@@ -56,7 +58,11 @@ public class IncomingMessageServiceImpl extends BaseIncomingMessageService {
     try {
       handler.handle(incomingMessage);
     } catch (Exception e) {
-      LOGGER.error("Error executing Incoming Message handler: " + handler.getClass().getName(), e);
+      LOGGER.error(
+          format(
+              "Error executing Incoming Message handler: {0}. Cause: {1}",
+              handler.getClass().getName(), e.toString()),
+          e);
     }
   }
 }
