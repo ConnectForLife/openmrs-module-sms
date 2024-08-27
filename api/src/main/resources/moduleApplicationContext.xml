@@ -22,7 +22,7 @@
 
     <context:component-scan base-package="org.openmrs.module.sms"/>
 
-    <bean id="sms.SmsRecordDao" class="org.openmrs.module.sms.api.dao.impl.SmsRecordDaoImpl">
+    <bean id="sms.SmsRecordDao" class="org.connectforlife.module.sms.api.dao.impl.SmsRecordDaoImpl">
         <property name="dbSessionFactory" ref="dbSessionFactory"/>
     </bean>
 
@@ -32,7 +32,7 @@
           class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
         <property name="transactionManager" ref="transactionManager"/>
         <property name="target">
-            <bean class="org.openmrs.module.sms.api.service.SmsServiceImpl">
+            <bean class="org.connectforlife.module.sms.api.service.SmsServiceImpl">
                 <constructor-arg index="0" ref="sms.eventService"/>
                 <constructor-arg index="1" ref="sms.schedulerService"/>
                 <constructor-arg index="2" ref="templateService"/>
@@ -49,7 +49,7 @@
     <bean parent="serviceContext">
         <property name="moduleService">
             <list>
-                <value>org.openmrs.module.sms.api.service.SmsService</value>
+                <value>org.connectforlife.module.sms.api.service.SmsService</value>
                 <ref bean="sms.SmsService"/>
             </list>
         </property>
@@ -63,7 +63,7 @@
             <ref bean="transactionManager"/>
         </property>
         <property name="target">
-            <bean class="org.openmrs.module.sms.api.service.SmsSettingsServiceImpl">
+            <bean class="org.connectforlife.module.sms.api.service.SmsSettingsServiceImpl">
                 <property name="templateService" ref="templateService"/>
                 <property name="configService" ref="sms.configService"/>
                 <property name="templateJsonParser" ref="sms.templateJsonParser"/>
@@ -79,64 +79,64 @@
     <bean parent="serviceContext">
         <property name="moduleService">
             <list>
-                <value>org.openmrs.module.sms.api.service.SmsSettingsService</value>
+                <value>org.connectforlife.module.sms.api.service.SmsSettingsService</value>
                 <ref bean="sms.SettingsService"/>
             </list>
         </property>
     </bean>
 
-    <bean id="sms.configService" class="org.openmrs.module.sms.api.service.ConfigServiceImpl">
+    <bean id="sms.configService" class="org.connectforlife.module.sms.api.service.ConfigServiceImpl">
         <constructor-arg index="0" ref="sms.settings.manager"/>
     </bean>
 
-    <bean id="sms.settings.manager" class="org.openmrs.module.sms.api.service.SettingsManagerServiceImpl"/>
+    <bean id="sms.settings.manager" class="org.connectforlife.module.sms.api.service.SettingsManagerServiceImpl"/>
 
-    <bean id="sms.eventService" class="org.openmrs.module.sms.api.service.SmsEventServiceImpl"/>
+    <bean id="sms.eventService" class="org.connectforlife.module.sms.api.service.SmsEventServiceImpl"/>
     <bean parent="serviceContext">
         <property name="moduleService">
             <list merge="true">
-                <value>org.openmrs.module.sms.api.service.SmsEventService</value>
+                <value>org.connectforlife.module.sms.api.service.SmsEventService</value>
                 <ref bean="sms.eventService"/>
             </list>
         </property>
     </bean>
 
-    <bean id="sms.schedulerService" class="org.openmrs.module.sms.api.service.SmsSchedulerServiceImpl">
+    <bean id="sms.schedulerService" class="org.connectforlife.module.sms.api.service.SmsSchedulerServiceImpl">
         <property name="schedulerService" ref="schedulerService"/>
     </bean>
     <bean parent="serviceContext">
         <property name="moduleService">
             <list merge="true">
-                <value>org.openmrs.module.sms.api.service.SmsSchedulerService</value>
+                <value>org.connectforlife.module.sms.api.service.SmsSchedulerService</value>
                 <ref bean="sms.schedulerService"/>
             </list>
         </property>
     </bean>
 
-    <bean id="templateService" class="org.openmrs.module.sms.api.service.TemplateServiceImpl">
+    <bean id="templateService" class="org.connectforlife.module.sms.api.service.TemplateServiceImpl">
         <constructor-arg index="0" ref="sms.settings.manager"/>
     </bean>
 
     <bean parent="serviceContext">
         <property name="moduleService">
             <list merge="true">
-                <value>org.openmrs.module.sms.api.service.TemplateService</value>
+                <value>org.connectforlife.module.sms.api.service.TemplateService</value>
                 <ref bean="templateService"/>
             </list>
         </property>
     </bean>
 
-    <bean id="sms.HttpClientService" class="org.openmrs.module.sms.api.http.HttpClientService"/>
-    <bean id="sms.HttpAuthenticationService" class="org.openmrs.module.sms.api.http.HttpAuthenticationService"/>
-    <bean id="sms.HttpAuthenticationBASICHandler" class="org.openmrs.module.sms.api.http.HttpAuthenticationBASICHandler"/>
-    <bean id="sms.JWTRepository" class="org.openmrs.module.sms.api.http.JWTRepository">
+    <bean id="sms.HttpClientService" class="org.connectforlife.module.sms.api.http.HttpClientService"/>
+    <bean id="sms.HttpAuthenticationService" class="org.connectforlife.module.sms.api.http.HttpAuthenticationService"/>
+    <bean id="sms.HttpAuthenticationBASICHandler" class="org.connectforlife.module.sms.api.http.HttpAuthenticationBASICHandler"/>
+    <bean id="sms.JWTRepository" class="org.connectforlife.module.sms.api.http.JWTRepository">
         <property name="httpClientService" ref="sms.HttpClientService"/>
     </bean>
-    <bean id="sms.HttpAuthenticationJWTHandler" class="org.openmrs.module.sms.api.http.HttpAuthenticationJWTHandler">
+    <bean id="sms.HttpAuthenticationJWTHandler" class="org.connectforlife.module.sms.api.http.HttpAuthenticationJWTHandler">
         <property name="jwtRepository" ref="sms.JWTRepository"/>
     </bean>
 
-    <bean id="sms.SmsHttpService" class="org.openmrs.module.sms.api.http.SmsHttpService">
+    <bean id="sms.SmsHttpService" class="org.connectforlife.module.sms.api.http.SmsHttpService">
         <property name="httpClientService" ref="sms.HttpClientService"/>
         <property name="httpAuthenticationService" ref="sms.HttpAuthenticationService"/>
         <property name="smsRecordDao" ref="sms.SmsRecordDao"/>
@@ -148,7 +148,7 @@
     <bean id="sms.SmsAuditService" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
         <property name="transactionManager" ref="transactionManager"/>
         <property name="target">
-            <bean class="org.openmrs.module.sms.api.audit.SmsAuditServiceImpl" />
+            <bean class="org.connectforlife.module.sms.api.audit.SmsAuditServiceImpl" />
         </property>
         <property name="preInterceptors" ref="serviceInterceptors"/>
         <property name="transactionAttributeSource" ref="transactionAttributeSource"/>
@@ -157,62 +157,62 @@
     <bean parent="serviceContext">
         <property name="moduleService">
             <list>
-                <value>org.openmrs.module.sms.api.audit.SmsAuditService</value>
+                <value>org.connectforlife.module.sms.api.audit.SmsAuditService</value>
                 <ref bean="sms.SmsAuditService"/>
             </list>
         </property>
     </bean>
 
-    <bean id="sms.templateJsonParser" class="org.openmrs.module.sms.api.json.TemplateJsonParser">
+    <bean id="sms.templateJsonParser" class="org.connectforlife.module.sms.api.json.TemplateJsonParser">
         <property name="templateService" ref="templateService"/>
     </bean>
 
-    <bean id="sms.statusSmsEventListener" class="org.openmrs.module.sms.api.event.StatusSmsEventListener"/>
+    <bean id="sms.statusSmsEventListener" class="org.connectforlife.module.sms.api.event.StatusSmsEventListener"/>
 
-    <bean id="sms.sendSmsEventListener" class="org.openmrs.module.sms.api.event.SendSmsEventListener"/>
+    <bean id="sms.sendSmsEventListener" class="org.connectforlife.module.sms.api.event.SendSmsEventListener"/>
     <bean id="springValidationFactory" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"
           primary="true"/>
-    <bean id="sms.validationComponent" class="org.openmrs.module.sms.api.validate.ValidationComponent" >
+    <bean id="sms.validationComponent" class="org.connectforlife.module.sms.api.validate.ValidationComponent" >
         <property name="factory" ref="springValidationFactory"/>
     </bean>
 
-    <bean id="sms.TemplateHandler" class="org.openmrs.module.sms.handler.metadatasharing.TemplateHandler" />
+    <bean id="sms.TemplateHandler" class="org.connectforlife.module.sms.handler.metadatasharing.TemplateHandler" />
 
-    <bean id="sms.IncomingMessageService" class="org.openmrs.module.sms.api.service.impl.IncomingMessageServiceImpl" />
+    <bean id="sms.IncomingMessageService" class="org.connectforlife.module.sms.api.service.impl.IncomingMessageServiceImpl" />
     <bean id="sms.VelocityAutomaticResponseEvaluatorService"
-          class="org.openmrs.module.sms.api.service.impl.VelocityAutomaticResponseEvaluatorService" />
+          class="org.connectforlife.module.sms.api.service.impl.VelocityAutomaticResponseEvaluatorService" />
     <bean id="sms.DefaultIncomingMessageHandler"
-          class="org.openmrs.module.sms.api.handler.impl.DefaultIncomingMessageHandler">
+          class="org.connectforlife.module.sms.api.handler.impl.DefaultIncomingMessageHandler">
         <property name="automaticResponseEvaluatorService" ref="sms.VelocityAutomaticResponseEvaluatorService" />
         <property name="smsService" ref="sms.SmsService" />
     </bean>
 
-    <bean id="sms.adHocSMSInputSourceProcessorService" class="org.openmrs.module.sms.api.service.impl.AdHocSMSInputSourceProcessorServiceImpl" />
+    <bean id="sms.adHocSMSInputSourceProcessorService" class="org.connectforlife.module.sms.api.service.impl.AdHocSMSInputSourceProcessorServiceImpl" />
     <bean parent="serviceContext">
         <property name="moduleService">
             <list merge="true">
-                <value>org.openmrs.module.sms.api.service.AdHocSMSInputSourceProcessorService</value>
+                <value>org.connectforlife.module.sms.api.service.AdHocSMSInputSourceProcessorService</value>
                 <ref bean="sms.adHocSMSInputSourceProcessorService"/>
             </list>
         </property>
     </bean>
 
-    <bean id="sms.adHocSMSExcelFileProcessor" class="org.openmrs.module.sms.api.adhocsms.AdHocSMSExcelFileProcessor" />
-    <bean id="sms.adHocSMSJSONFileProcessor" class="org.openmrs.module.sms.api.adhocsms.AdHocSMSJSONFileProcessor" />
-    <bean id="sms.adHocSMSSQLDataSetProcessor" class="org.openmrs.module.sms.api.adhocsms.AdHocSMSSQLDataSetProcessor">
+    <bean id="sms.adHocSMSExcelFileProcessor" class="org.connectforlife.module.sms.api.adhocsms.AdHocSMSExcelFileProcessor" />
+    <bean id="sms.adHocSMSJSONFileProcessor" class="org.connectforlife.module.sms.api.adhocsms.AdHocSMSJSONFileProcessor" />
+    <bean id="sms.adHocSMSSQLDataSetProcessor" class="org.connectforlife.module.sms.api.adhocsms.AdHocSMSSQLDataSetProcessor">
         <constructor-arg ref="dbSessionFactory"/>
     </bean>
 
-    <bean id="sms.scheduleAdHocSMSesService" class="org.openmrs.module.sms.api.service.impl.ScheduleAdHocSMSesServiceImpl" />
+    <bean id="sms.scheduleAdHocSMSesService" class="org.connectforlife.module.sms.api.service.impl.ScheduleAdHocSMSesServiceImpl" />
     <bean parent="serviceContext">
         <property name="moduleService">
             <list merge="true">
-                <value>org.openmrs.module.sms.api.service.ScheduleAdHocSMSesService</value>
+                <value>org.connectforlife.module.sms.api.service.ScheduleAdHocSMSesService</value>
                 <ref bean="sms.scheduleAdHocSMSesService"/>
             </list>
         </property>
     </bean>
 
-    <bean id="sms.scheduledMessagesGlobalPropertyListener" class="org.openmrs.module.sms.api.event.ScheduledMessagesGlobalPropertyListener" />
+    <bean id="sms.scheduledMessagesGlobalPropertyListener" class="org.connectforlife.module.sms.api.event.ScheduledMessagesGlobalPropertyListener" />
 
 </beans>
